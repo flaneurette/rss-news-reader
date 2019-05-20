@@ -1,0 +1,43 @@
+
+
+	body {
+		margin:33px;
+		font-family: sans-serif;
+	}
+	
+	a:link {
+		font-size:11px;
+	}
+	
+	.rss_link {
+		display:block;
+		float:left;	
+		clear:both;		
+	}
+	
+	.container {
+		display:block;
+		float:left;
+		font-size:11px;
+		padding:11px;
+		border:1px solid grey;
+		width: 350px;
+		margin:5px;
+	}
+	
+	.description {
+		display:block;
+		float:left;
+		font-size:11px;
+		padding:5px;
+	}
+	
+	.filter {
+		color:#ff0000;
+	}
+
+	#rss {
+		margin: 0 auto;
+		width:100%;
+	}
+	
