@@ -6,9 +6,13 @@ This is a simple PHP file that fetches and parses about 140+ rss feeds from news
 # Filter parameters:
 
 positive_strict
+
 aggressive_strict
+
 positive_weighed
+
 negative_weighed
+
 
 Which can be set through the REQUEST param:
 
