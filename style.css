@@ -1,6 +1,4 @@
-
-
-	body {
+body {
 		margin:33px;
 		font-family: sans-serif;
 	}
@@ -41,3 +39,21 @@
 		width:100%;
 	}
 	
+	.description-filtered-negative {
+		display:block;
+		float:left;
+		font-size:11px;
+		padding:5px;
+		background-color:#ff9999;
+		border:1px solid #ff3333;
+	}
+		
+	.description-filtered-positive {
+		display:block;
+		float:left;
+		font-size:11px;
+		padding:5px;
+		background-color:#ccff99;
+		border:1px solid #4d9900;
+	}
+		
