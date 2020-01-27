@@ -4,7 +4,7 @@
 	
 <title>RSS NEWS</title>
 	
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="style.css?refresh=1">
 	
 </head>
 	
@@ -954,6 +954,7 @@
 		$result_array = json_decode($json_string, TRUE);
 
 			$i=0;
+			
 			if(!empty($result_array['channel']['item'][$i]['description'])) { 
 
 				echo "<div class=\"container\"><h4>".clean($value,'description')."</h4>";
@@ -972,14 +973,27 @@
 						$check_title = checkfeed($title);
 						$check_desc  = checkfeed($desc);
 						
+						
 						if($check_link != false && $check_title != false && $check_desc != false) { 
-							echo "<a href='".clean($link,'url')."' class='rss_link'>".clean($title,'title')."</a>";
-							echo "<span class='description'>".clean($desc,'description')."</span>";
+						
 							if(filter($desc) == true) {
-								echo "<span class='filter'>FILTERED</span>";
+								
+									echo "<a href='".clean($link,'url')."' class='rss_link'>".clean($title,'title')."</a>";
+									
+									if($_REQUEST['filter'] == 'positive_strict') {
+										echo "<span class='description-filtered-positive'>".clean($desc,'description')."</span>";
+									} elseif($_REQUEST['filter'] == 'positive_weighed') {
+										echo "<span class='description-filtered-positive'>".clean($desc,'description')."</span>";
+									} else {
+										echo "<span class='description-filtered-negative'>".clean($desc,'description')."</span>";
+									}
+								
+								} else {
+								echo "<a href='".clean($link,'url')."' class='rss_link'>".clean($title,'title')."</a>";
+								echo "<span class='description'>".clean($desc,'description')."</span>";
 							}
-							
 						}
+						
 						
 					}
 					
