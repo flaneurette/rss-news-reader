@@ -5,10 +5,11 @@ This is a simple PHP file that fetches and parses about 140+ rss feeds from news
 
 # Filter parameters:
 
-- positive_strict
-- aggressive_strict
-- positive_weighed
-- negative_weighed
+- positive_strict: filters news on strict positive keywords.
+- aggressive_strict: filters news on agressive keywords.
+- positive_weighed: filters news on positive weighed keywords.
+- negative_weighed: filters news on negative weighed keywords.
+- CSV: filters news on use given keywords.
 
 # CSV
 It is also possible to add CSV values and fetch news articles based upon given keywords.
