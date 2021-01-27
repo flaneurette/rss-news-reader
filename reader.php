@@ -9,12 +9,51 @@
 </head>
 	
 <body>
+
+<div id="form">
+<form name="news-selection" method="POST" action="">
+<select name="weights">
+<option value="">Select preset...</option>
+<option value="positive_strict">positive_strict</option>
+<option value="aggressive_strict">aggressive_strict</option>
+<option value="positive_weighed">positive_weighed</option>
+<option value="negative_weighed">negative_weighed</option>
+<option value="csv">CSV...</option>
+</select> CSV wordlist (comma separated) <input type="text" name="csv" size="50" value="" /> Articles per site: <input type="number" name="num_value" size="2" value="10" min="5" max="50"/>
+<input type="submit" value="update news">
+</form>
+
+</div>
 	
 	<div id="rss">
 		
 	<?php
+	
+	$csv_filter = false;
 
-	$feeds = array('http://www.nytimes.com/services/xml/rss/nyt/Americas.xml',
+	if(isset($_POST['weights'])) {
+		$global_filter = $_POST['weights'];
+		} elseif(isset($_GET['filter'])) {
+		$global_filter = $_GET['filter'];
+		} else {
+		echo "<h3>No filter selected! defaulting to all.</h3>";
+	}
+	
+	if(isset($_POST['csv'])) {
+		$csv_filter = $_POST['csv'];
+		} else {
+		$csv_filter = false;
+	}
+	
+	if(isset($_REQUEST['num_value'])) {
+		$maxarticles = (int)$_REQUEST['num_value'];
+		} else {
+		$maxarticles = 10;
+	}
+	
+	$feeds = array(
+	'http://www.dailymail.co.uk/articles.rss',
+	'http://www.nytimes.com/services/xml/rss/nyt/Americas.xml',
 	'http://www.nytimes.com/services/xml/rss/nyt/Arts.xml',
 	'http://www.nytimes.com/services/xml/rss/nyt/AsiaPacific.xml',
 	'http://www.nytimes.com/services/xml/rss/nyt/DiningandWine.xml',
@@ -158,9 +197,9 @@
 	'http://www.wsj.com/xml/rss/3_7041.xml');
 
 
-	function filter($string) {
+	function filter($string,$global_filter,$csv_filter) {
 
-		$filter = $_REQUEST['filter'];
+		$filter = $global_filter;
 
 		if($filter) {
 			
@@ -821,6 +860,7 @@
 			$weight_positive = 0;
 			$weight_negative = 0;
 			$weight_aggressive = 0;
+			$weight_csv = 0;
 			
 			/*
 				positive_strict
@@ -830,6 +870,30 @@
 			*/
 			
 			switch($filter) {
+
+				case 'csv':
+					
+				if(strlen($csv_filter) > 3) {
+					
+					$words_csv = explode(',',$csv_filter);
+					
+					if(is_array($words_csv)) {
+						
+						foreach($words_csv as $key=>$value) { 
+							if(stristr($string, $value)) {
+								$weight_csv++;
+								break;
+							}
+						}
+					
+						if($weight_csv >= 1) {
+								return true;
+						}	
+
+					}		
+				}				
+				
+				break;
 				
 				case 'positive_strict':
 				
@@ -961,7 +1025,7 @@
 				
 				$counter = count($result_array['channel']['item']);
 				
-				for($i;$i<12;$i++) {
+				for($i;$i<$maxarticles;$i++) {
 					
 					if(!empty($counter)) {
 						
@@ -976,14 +1040,16 @@
 						
 						if($check_link != false && $check_title != false && $check_desc != false) { 
 						
-							if(filter($desc) == true) {
+							if(filter($desc,$global_filter,$csv_filter) == true) {
 								
 									echo "<a href='".clean($link,'url')."' class='rss_link'>".clean($title,'title')."</a>";
 									
-									if($_REQUEST['filter'] == 'positive_strict') {
+									if($global_filter == 'positive_strict') {
 										echo "<span class='description-filtered-positive'>".clean($desc,'description')."</span>";
-									} elseif($_REQUEST['filter'] == 'positive_weighed') {
+									} elseif($global_filter == 'positive_weighed') {
 										echo "<span class='description-filtered-positive'>".clean($desc,'description')."</span>";
+									} elseif($global_filter == 'csv') {
+										echo "<span class='description-filtered-csv'>".clean($desc,'description')."</span>";
 									} else {
 										echo "<span class='description-filtered-negative'>".clean($desc,'description')."</span>";
 									}
