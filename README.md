@@ -5,18 +5,14 @@ This is a simple PHP file that fetches and parses about 140+ rss feeds from news
 
 # Filter parameters:
 
-positive_strict
+- positive_strict
+- aggressive_strict
+- positive_weighed
+- negative_weighed
 
-aggressive_strict
+# CSV
+It is also possible to add CSV values and fetch news articles based upon given keywords.
 
-positive_weighed
-
-negative_weighed
-
-
-Which can be set through the REQUEST param:
-
-reader.php?filter=positive_weighed
-
+# RSS List
 
 The RSS list was composed by @Dave Winer: https://github.com/scripting/feedsForJournalists
