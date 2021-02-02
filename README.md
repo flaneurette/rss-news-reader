@@ -14,6 +14,9 @@ This is a simple PHP file that fetches and parses about 140+ rss feeds from news
 # CSV
 It is also possible to add CSV values and fetch news articles based upon given keywords.
 
+# Images
+The reader does not display images, only text.
+
 # RSS List
 
 The RSS list was composed by @Dave Winer: https://github.com/scripting/feedsForJournalists
