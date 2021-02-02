@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-	
-<title>RSS NEWS</title>
-	
+<title>RSS NEWS</title
 <link rel="stylesheet" type="text/css" href="style.css?refresh=1">
-	
 </head>
 	
 <body>
@@ -25,7 +22,7 @@
 
 </div>
 	
-	<div id="rss">
+<div id="rss">
 		
 	<?php
 	
@@ -41,6 +38,7 @@
 	
 	if(isset($_POST['csv'])) {
 		$csv_filter = $_POST['csv'];
+		$global_filter = 'csv';
 		} else {
 		$csv_filter = false;
 	}
@@ -747,7 +745,7 @@
 						'skeptically','skepticism','sketchy','skimpy','skinny','skittish','skittishly','skulk','slack',
 						'slander','slanderer','slanderous','slanderously','slanders','slap','slashing','slaughter',
 						'slaughtered','slave','slaves','sleazy','slime','slog','slogged','slogging','slogs',
-						'sloooooooooooooow','sloooow','slooow','sloow','sloppily','sloppy','sloth','slothful',
+						'sloooow','slooow','sloow','sloppily','sloppy','sloth','slothful',
 						'slow','slow-moving','slowed','slower','slowest','slowly','sloww','slowww','slowwww','slug',
 						'sluggish','slump','slumping','slumpping','slur','slut','sluts','sly','smack','smallish','smash',
 						'smear','smell','smelled','smelling','smells','smelly','smelt','smoke','smokescreen','smolder',
