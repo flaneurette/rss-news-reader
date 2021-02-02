@@ -1,13 +1,18 @@
+<?php
+error_reporting(0);
+?>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-<title>RSS NEWS</title
+	
+<title>RSS NEWS</title>
 <link rel="stylesheet" type="text/css" href="style.css?refresh=1">
 </head>
 	
 <body>
 
 <div id="form">
+<h1>News.</h1>
 <form name="news-selection" method="POST" action="">
 <select name="weights">
 <option value="">Select preset...</option>
@@ -15,8 +20,7 @@
 <option value="aggressive_strict">aggressive_strict</option>
 <option value="positive_weighed">positive_weighed</option>
 <option value="negative_weighed">negative_weighed</option>
-<option value="csv">CSV...</option>
-</select> CSV wordlist (comma separated) <input type="text" name="csv" size="50" value="" /> Articles per site: <input type="number" name="num_value" size="2" value="10" min="5" max="50"/>
+</select> or: CSV wordlist (comma separated) <input type="text" name="csv" size="50" value="" /> Articles per site: <input type="number" name="num_value" size="2" value="10" min="5" max="50"/>
 <input type="submit" value="update news">
 </form>
 
@@ -25,29 +29,33 @@
 <div id="rss">
 		
 	<?php
-	
-	$csv_filter = false;
 
-	if(isset($_POST['weights'])) {
-		$global_filter = $_POST['weights'];
-		} elseif(isset($_GET['filter'])) {
-		$global_filter = $_GET['filter'];
-		} else {
-		echo "<h3>No filter selected! defaulting to all.</h3>";
+	function cleanInput($string) 
+	{
+		if(is_array($string)) {
+			return @array_map("htmlspecialchars", $string, array(ENT_QUOTES, 'UTF-8'));
+			} else {
+			return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+		}
 	}
 	
-	if(isset($_POST['csv'])) {
-		$csv_filter = $_POST['csv'];
+
+	if($_POST['csv'] !='') {
+		$csv_filter = cleanInput($_POST['csv']);
 		$global_filter = 'csv';
+		} elseif($_POST['weights'] !='') {
+		$global_filter = cleanInput($_POST['weights']);
 		} else {
 		$csv_filter = false;
+		$global_filter = false;
 	}
-	
-	if(isset($_REQUEST['num_value'])) {
+
+	if(isset($_POST['num_value'])) {
 		$maxarticles = (int)$_REQUEST['num_value'];
 		} else {
 		$maxarticles = 10;
 	}
+	
 	
 	$feeds = array(
 	'http://www.dailymail.co.uk/articles.rss',
@@ -78,18 +86,6 @@
 	'http://feeds.bbci.co.uk/news/technology/rss.xml',
 	'http://feeds.bbci.co.uk/news/world/rss.xml',
 	'http://feeds.bbci.co.uk/news/world/rss.xml',
-	'http://feeds.feedburner.com/avc',
-	'http://feeds.feedburner.com/fastcompany/headlines',
-	'http://feeds.feedburner.com/JamesFallows',
-	'http://feeds.feedburner.com/JonathanChaitRssFeed',
-	'http://feeds.feedburner.com/pbs/mediashift-blog',
-	'http://feeds.feedburner.com/PoliticalWire',
-	'http://feeds.feedburner.com/realclearpolitics/qlMj',
-	'http://feeds.feedburner.com/scotusblog/pFXs',
-	'http://feeds.feedburner.com/talking-points-memo',
-	'http://feeds.feedburner.com/thedailybeast/articles',
-	'http://feeds.feedburner.com/TheWirecutter',
-	'http://feeds.feedburner.com/Torrentfreak',
 	'http://feeds.foxnews.com/foxnews/latest',
 	'http://feeds.foxnews.com/foxnews/politics?format=xml',
 	'http://feeds.latimes.com/movies/reviews/',
@@ -109,17 +105,7 @@
 	'http://feeds.washingtonpost.com/rss/rss_the-fix',
 	'http://feeds.washingtonpost.com/rss/sports/blogs-columns',
 	'http://feeds.washingtonpost.com/rss/world',
-	'http://georgelakoff.com/feed/',
-	'http://hnrss.org/newest?points=200',
-	'http://krugman.blogs.nytimes.com/feed/',
 	'http://mediagazer.com/feed.xml',
-	'http://mondaynote.com/feed',
-	'http://motherboard.vice.com/en_us/rss',
-	'http://om.co/feed/',
-	'http://pressthink.org/feed/',
-	'http://qz.com/feed/',
-	'http://qz.com/feed/',
-	'http://radio3.io/users/davewiner/rss.xml',
 	'http://rss.cbc.ca/lineup/world.xml',
 	'http://rss.dw.de/rdf/rss-en-world',
 	'http://rss.nytimes.com/services/xml/rss/nyt/Politics.xml',
